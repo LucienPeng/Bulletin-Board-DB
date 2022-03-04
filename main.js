@@ -8,9 +8,8 @@ const mongoose = require("mongoose");
 
 const username = encodeURIComponent("lucien");
 const password = encodeURIComponent("/nxfl7zp");
-const database = encodeURIComponent("message");
-const uri = `mongodb+srv://${username}:${password}@bulletin-board.cshcu.mongodb.net${database}?retryWrites=true&w=majority`;
-//const uri = process.env.MONGODB_URI;
+const database = encodeURIComponent("Bulletin_board");
+const uri = `mongodb+srv://${username}:${password}@bulletin-board.4mgev.mongodb.net/${database}?retryWrites=true&w=majority`;
 
 mongoose
   .connect(uri, {
@@ -42,6 +41,10 @@ app.all("/*", function (req, res, next) {
   }
 });
 
+app.get("/", (req, res) => {
+  res.send("留言板ＤＢ已經成功連線！！！");
+});
+
 app.post("/message", async (req, res) => {
   for (let i = 0; i < data.length; i++) {
     let newMessage = new Message({
@@ -65,10 +68,6 @@ app.post("/message", async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("留言板ＤＢ已經成功連線！！！");
-});
-
-app.listen(process.env.PORT || 4000, () =>
+app.listen(process.env.PORT || 3000, () =>
   console.log("Server is running...Go! Go! GO!")
 );
