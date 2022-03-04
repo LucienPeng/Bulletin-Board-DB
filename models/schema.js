@@ -22,7 +22,7 @@ const messageSchema = new mongoose.Schema({
     required: true,
   },
   like: {
-    type: Boolean,
+    type: Number,
   },
   valid: {
     type: Boolean,

@@ -42,10 +42,33 @@ app.all("/*", function (req, res, next) {
   }
 });
 
+app.post("/message", async (req, res) => {
+  for (let i = 0; i < data.length; i++) {
+    let newMessage = new Message({
+      id: data[i].id,
+      user: data[i].user,
+      timeStamp: data[i].timeStamp,
+      topic: data[i].topic,
+      content: data[i].content,
+      like: data[i].like,
+      valid: data[i].valid,
+    });
+    await newMessage
+      .save()
+      .then(() => {
+        console.log(`Message ${i} has been saved`);
+      })
+      .catch((e) => {
+        console.log(`Message ${i} is not accepted.`);
+        console.log(e);
+      });
+  }
+});
+
 app.get("/", (req, res) => {
   res.send("留言板ＤＢ已經成功連線！！！");
 });
 
-app.listen(process.env.PORT || 3000, () =>
+app.listen(process.env.PORT || 4000, () =>
   console.log("Server is running...Go! Go! GO!")
 );
