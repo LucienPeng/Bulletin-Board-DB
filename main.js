@@ -6,6 +6,10 @@ const app = express();
 
 const mongoose = require("mongoose");
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 const username = encodeURIComponent("lucien");
 const password = encodeURIComponent("/nxfl7zp");
 const database = encodeURIComponent("Bulletin_board");
@@ -75,28 +79,27 @@ app.get("/user/:user", async (req, res) => {
   }
 });
 
-// app.post("/message", async (req, res) => {
-//   for (let i = 0; i < data.length; i++) {
-//     let newMessage = new Message({
-//       id: data[i].id,
-//       user: data[i].user,
-//       timeStamp: data[i].timeStamp,
-//       topic: data[i].topic,
-//       content: data[i].content,
-//       like: data[i].like,
-//       valid: data[i].valid,
-//     });
-//     await newMessage
-//       .save()
-//       .then(() => {
-//         console.log(`Message ${i} has been saved`);
-//       })
-//       .catch((e) => {
-//         console.log(`Message ${i} is not accepted.`);
-//         console.log(e);
-//       });
-//   }
-// });
+app.post("/add", async (req, res) => {
+  let { id, user, timeStamp, topic, content, like, valid } = req.body;
+  let newMessage = new Message({
+    id,
+    user,
+    timeStamp,
+    topic,
+    content,
+    like,
+    valid,
+  });
+  await newMessage
+    .save()
+    .then(() => {
+      console.log(`Message has been saved`);
+    })
+    .catch((e) => {
+      console.log(`Message is not accepted.`);
+      console.log(e);
+    });
+});
 
 app.listen(process.env.PORT || 3000, () =>
   console.log("Server is running...Go! Go! GO!")
