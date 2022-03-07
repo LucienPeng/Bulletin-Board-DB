@@ -3,30 +3,25 @@ const mongoose = require("mongoose");
 const messageSchema = new mongoose.Schema({
   id: {
     type: Number,
-    required: true,
   },
   user: {
     type: String,
-    required: true,
   },
   timeStamp: {
     type: String,
-    required: true,
   },
   topic: {
     type: String,
-    required: true,
   },
   content: {
     type: String,
-    required: true,
+    max: 300,
   },
   like: {
     type: Number,
   },
   valid: {
     type: Boolean,
-    required: true,
   },
 });
 
