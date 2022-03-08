@@ -12,9 +12,11 @@ const messageSchema = new mongoose.Schema({
   },
   topic: {
     type: String,
+    required: true,
   },
   content: {
     type: String,
+    required: true,
     max: 300,
   },
   like: {
