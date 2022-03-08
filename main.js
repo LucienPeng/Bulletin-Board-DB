@@ -52,28 +52,92 @@ app.get("/", (req, res) => {
 //Find All Data
 app.get("/all", async (req, res) => {
   try {
-    let data = await Message.find({});
+    let data = await Message.find(
+      {},
+      {
+        id: 1,
+        user: 1,
+        timeStamp: 1,
+        topic: 1,
+        content: 1,
+        like: 1,
+        valid: 1,
+        _id: 0,
+      }
+    );
     await res.send(data);
   } catch (e) {
     console.log(e);
   }
 });
 
+//Find Topic
 app.get("/topic/:topic", async (req, res) => {
   let { topic } = req.params;
   try {
-    let data = await Message.find({ topic });
+    let data = await Message.find(
+      { topic },
+      {
+        id: 1,
+        user: 1,
+        timeStamp: 1,
+        topic: 1,
+        content: 1,
+        like: 1,
+        valid: 1,
+        _id: 0,
+      }
+    );
     res.send(data);
   } catch (e) {
     console.log(e);
   }
 });
 
+//Find User
 app.get("/user/:user", async (req, res) => {
   let { user } = req.params;
   try {
-    let data = await Message.find({ user });
+    let data = await Message.find(
+      { user },
+      {
+        id: 1,
+        user: 1,
+        timeStamp: 1,
+        topic: 1,
+        content: 1,
+        like: 1,
+        valid: 1,
+        _id: 0,
+      }
+    );
     res.send(data);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+//Delete User
+app.post("/deleteUser/:user", async (req, res) => {
+  let { user } = req.params;
+  try {
+    Message.deleteMany({ user: user }, function (err) {
+      if (err) return handleError(err);
+      res.send("Data has been removed !");
+    });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+//Delete Topic
+app.post("/deleteTopic/:topic", async (req, res) => {
+  let { topic } = req.params;
+  try {
+    Message.deleteMany({ topic: topic }, function (err) {
+      if (err) return handleError(err);
+      res.send("Data has been removed !");
+    });
   } catch (e) {
     console.log(e);
   }
