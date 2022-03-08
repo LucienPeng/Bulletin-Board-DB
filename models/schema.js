@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+var AutoIncrement = require("mongoose-sequence")(mongoose);
+
 
 const messageSchema = new mongoose.Schema({
   id: {
@@ -27,6 +29,8 @@ const messageSchema = new mongoose.Schema({
   },
 });
 
+messageSchema.plugin(AutoIncrement, { id: "order_seq", inc_field: "id" });
 const Message = mongoose.model("message", messageSchema);
+
 
 module.exports = Message;
