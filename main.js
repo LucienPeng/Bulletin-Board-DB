@@ -145,28 +145,54 @@ app.post("/deleteTopic/:topic", async (req, res) => {
 });
 
 app.post("/add", async (req, res) => {
-  let { id, user, timeStamp, topic, content, like, valid } = req.body;
-  let newMessage = new Message({
-    id: 0,
-    user: "Ella",
-    timeStamp: "2022/03/04 13:54:04",
-    topic: "Test",
-    content: "Test",
-    like: 2,
-    valid: true,
-  });
-  await newMessage
-    .save()
-    .then(() => {
-      res.send(`Your message has been saved`);
-      console.log(`Message has been saved`);
-    })
-    .catch((e) => {
-      console.log(`Message is not accepted.`);
-      console.log(e);
-      res.send(e);
+  for (let i = 0; i < data.length; i++) {
+    let { id, user, timeStamp, topic, content, like, valid } = req.body;
+    let newMessage = new Message({
+      id,
+      user,
+      timeStamp,
+      topic,
+      content,
+      like,
+      valid,
     });
+    await newMessage
+      .save()
+      .then(() => {
+        //res.send(`Your message has been saved`);
+        console.log(`Message has been saved`);
+      })
+      .catch((e) => {
+        console.log(`Message is not accepted.`);
+        console.log(e);
+        res.send(e);
+      });
+  }
 });
+
+// app.post("/add", async (req, res) => {
+//   let { id, user, timeStamp, topic, content, like, valid } = req.body;
+//   let newMessage = new Message({
+//     id: 0,
+//     user: "Ella",
+//     timeStamp: "2022/03/04 13:54:04",
+//     topic: "Test",
+//     content: "Test",
+//     like: 2,
+//     valid: true,
+//   });
+//   await newMessage
+//     .save()
+//     .then(() => {
+//       res.send(`Your message has been saved`);
+//       console.log(`Message has been saved`);
+//     })
+//     .catch((e) => {
+//       console.log(`Message is not accepted.`);
+//       console.log(e);
+//       res.send(e);
+//     });
+// });
 
 // app.post("/add", async (req, res) => {
 //   for (let i = 0; i < data.length; i++) {
