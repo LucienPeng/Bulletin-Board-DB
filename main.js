@@ -158,7 +158,7 @@ app.post("/add", async (req, res) => {
   await newMessage
     .save()
     .then(() => {
-      //res.send(`Your message has been saved`);
+      res.send(`Your message has been saved`);
       console.log(`Message has been saved`);
     })
     .catch((e) => {
