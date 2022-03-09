@@ -8,7 +8,7 @@ const app = express();
 const mongoose = require("mongoose");
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const username = encodeURIComponent("lucien");
@@ -165,6 +165,31 @@ app.post("/add", async (req, res) => {
       console.log(`Message is not accepted.`);
       console.log(e);
       res.send(e);
+    });
+});
+
+app.post("/like/:id", async (req, res) => {
+  let { id } = req.params;
+
+  const filter = { id: id };
+  let oldLike = 0;
+
+  await Message.findOne(filter).then((meg) => {
+    //res.send("Message has been found");
+    oldLike = meg.like + 1;
+    console.log(oldLike);
+  });
+  let update = { like: oldLike };
+
+  await Message.findOneAndUpdate(filter, update, {
+    new: true,
+  })
+    .then((meg) => {
+      console.log(meg);
+      res.send("Like has been updated");
+    })
+    .catch((meg) => {
+      console.log(meg);
     });
 });
 
