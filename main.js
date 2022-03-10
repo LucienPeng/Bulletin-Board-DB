@@ -6,7 +6,6 @@ const express = require("express");
 const app = express();
 
 const mongoose = require("mongoose");
-
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -177,21 +176,36 @@ app.post("/like/:id", async (req, res) => {
   await Message.findOne(filter).then((meg) => {
     //res.send("Message has been found");
     oldLike = meg.like + 1;
-    console.log(oldLike);
   });
   let update = { like: oldLike };
 
-  await Message.findOneAndUpdate(filter, update, {
+  let data = await Message.findOneAndUpdate(filter, update, {
     new: true,
   })
-    .then((meg) => {
-      console.log(meg);
-      res.send("Like has been updated");
+    .then((data) => {
+      console.log("Like has been updated(+1)");
+
+      res.status(200).send(data.like);
     })
     .catch((meg) => {
       console.log(meg);
     });
 });
+
+// let data = await Message.find(
+//   {},
+//   {
+//     id: 1,
+//     user: 1,
+//     timeStamp: 1,
+//     topic: 1,
+//     content: 1,
+//     like: 1,
+//     valid: 1,
+//     _id: 0,
+//   }
+// );
+// await res.send(data);
 
 // app.post("/add", async (req, res) => {
 //   let { id, user, timeStamp, topic, content, like, valid } = req.body;
