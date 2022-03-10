@@ -185,7 +185,7 @@ app.post("/like/:id", async (req, res) => {
     .then((data) => {
       console.log("Like has been updated(+1)");
 
-      res.status(200).send(data.like);
+      res.status(200).send(data);
     })
     .catch((meg) => {
       console.log(meg);
