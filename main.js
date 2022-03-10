@@ -179,13 +179,13 @@ app.post("/like/:id", async (req, res) => {
   });
   let update = { like: oldLike };
 
-  let data = await Message.findOneAndUpdate(filter, update, {
+  await Message.findOneAndUpdate(filter, update, {
     new: true,
   })
-    .then((data) => {
+    .then((meg) => {
       console.log("Like has been updated(+1)");
 
-      res.status(200).send(data);
+      res.status(200).send(meg);
     })
     .catch((meg) => {
       console.log(meg);
