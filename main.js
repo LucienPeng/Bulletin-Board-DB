@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static("public"));
 
 const username = encodeURIComponent("lucien");
 const password = encodeURIComponent("/nxfl7zp");
@@ -46,8 +47,10 @@ app.all("/*", function (req, res, next) {
 });
 
 app.get("/", (req, res) => {
-  res.send("留言板ＤＢ已經成功連線！！！");
+  res.render("index.html");
 });
+
+//FIND
 
 //Find All Data
 app.get("/all", async (req, res) => {
@@ -71,8 +74,30 @@ app.get("/all", async (req, res) => {
   }
 });
 
+//Find All Valid = False
+app.get("/allfalse", async (req, res) => {
+  try {
+    let data = await Message.find(
+      { valid: false },
+      {
+        id: 1,
+        user: 1,
+        timeStamp: 1,
+        topic: 1,
+        content: 1,
+        like: 1,
+        valid: 1,
+        _id: 0,
+      }
+    );
+    await res.send(data);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 //Find Topic
-app.get("/topic/:topic", async (req, res) => {
+app.get("/alltopic/:topic", async (req, res) => {
   let { topic } = req.params;
   try {
     let data = await Message.find(
@@ -95,11 +120,34 @@ app.get("/topic/:topic", async (req, res) => {
 });
 
 //Find User
-app.get("/user/:user", async (req, res) => {
+app.get("/alluser/:user", async (req, res) => {
   let { user } = req.params;
   try {
     let data = await Message.find(
       { user },
+      {
+        id: 1,
+        user: 1,
+        timeStamp: 1,
+        topic: 1,
+        content: 1,
+        like: 1,
+        valid: 1,
+        _id: 0,
+      }
+    );
+    res.send(data);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+//Find Id
+app.get("/id/:id", async (req, res) => {
+  let { id } = req.params;
+  try {
+    let data = await Message.find(
+      { id },
       {
         id: 1,
         user: 1,
@@ -130,6 +178,19 @@ app.post("/deleteUser/:user", async (req, res) => {
   }
 });
 
+//Delete ID
+app.post("/deleteId/:id", async (req, res) => {
+  let { id } = req.params;
+  try {
+    Message.deleteOne({ id }, function (err) {
+      if (err) return handleError(err);
+      res.send("Data has been removed !");
+    });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 //Delete Topic
 app.post("/deleteTopic/:topic", async (req, res) => {
   let { topic } = req.params;
@@ -143,6 +204,7 @@ app.post("/deleteTopic/:topic", async (req, res) => {
   }
 });
 
+//Add Data
 app.post("/add", async (req, res) => {
   let { id, user, timeStamp, topic, content, like, valid } = req.body;
   let newMessage = new Message({
@@ -167,6 +229,7 @@ app.post("/add", async (req, res) => {
     });
 });
 
+//Add Like
 app.post("/like/:id", async (req, res) => {
   let { id } = req.params;
 
@@ -184,6 +247,46 @@ app.post("/like/:id", async (req, res) => {
   })
     .then((meg) => {
       console.log("Like has been updated(+1)");
+
+      res.status(200).send(meg);
+    })
+    .catch((meg) => {
+      console.log(meg);
+    });
+});
+
+//Modify Content
+app.post("/content/:id", async (req, res) => {
+  const { id } = req.params;
+  const filter = { id: id };
+  let { content } = req.body;
+  let update = { content: content };
+
+  await Message.findOneAndUpdate(filter, update, {
+    new: true,
+  })
+    .then((meg) => {
+      console.log("content has been modified");
+
+      res.status(200).send(meg);
+    })
+    .catch((meg) => {
+      console.log(meg);
+    });
+});
+
+//Pre-delete
+app.post("/valid/:id", async (req, res) => {
+  const { id } = req.params;
+  const filter = { id: id };
+  let { valid } = req.body;
+  let update = { valid: valid };
+
+  await Message.findOneAndUpdate(filter, update, {
+    new: true,
+  })
+    .then((meg) => {
+      console.log("valid has been set to FALSE");
 
       res.status(200).send(meg);
     })

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+            width: 80vw;
+        }
+        h1{
+            text-align: center;
+            margin-top: 1rem;
+        }
+        h2{
+            text-align: center;
+            margin: 2rem
+        }
+    </style>
+</head>
+<body>
+    <h1>留言板DB API文件</h1>
+    <div>
+        <h2>搜尋類 FIND</h2>
+        <ul>
+            <li>列出所有資料(Get)：https://bulletin-board-db.herokuapp.com/all</li>
+            <li>列出所有軟刪除/預刪除資料(Get)：https://bulletin-board-db.herokuapp.com/allfalse</li>
+            <li>列出所有該{topic}相關資料(Get)：https://bulletin-board-db.herokuapp.com/alltopic/${topic}}</li>
+            <li>列出所有該{user}}相關資料(Get)：https://bulletin-board-db.herokuapp.com/alluser/${user}</li>
+            <li>列出該{id}的資料(Get)：https://bulletin-board-db.herokuapp.com/id/${id}}</li>
+        </ul>
+    </div>
+    <hr>
+    <div>
+        <h2>刪除類 DELETE</h2>
+        <ul>
+            <li>刪除該{user}之所有資料(post)：https://bulletin-board-db.herokuapp.com/deleteUser/${user}</li>
+            <li>刪除該{topic}之所有資料(post)：https://bulletin-board-db.herokuapp.com/deleteUser/${topic}</li>
+            <li>刪除該{id}之資料(post)：https://bulletin-board-db.herokuapp.com/deleteid/${id}</li>
+        </ul>
+    </div>
+    <hr>
+    <div>
+        <h2>新增類 INSERT</h2>
+        <ul>
+            <li>新增一筆資料(post)：https://bulletin-board-db.herokuapp.com/add</li>
+            (id,user,timeStamp,topic,content,like,valid)
+        </ul>
+    </div>
+    <hr>
+    <div>
+        <h2>修改類 UPDATE</h2>
+        <ul>
+            <li>修改LIKE讚數(post)：https://bulletin-board-db.herokuapp.com/like/${id}</li>
+            <li>修改CONTENT留言內容(post)：https://bulletin-board-db.herokuapp.com/content/${id}</li>
+            <li>修改VALID狀態為false(post)：https://bulletin-board-db.herokuapp.com/valid/${id}</li>
+        </ul>
+    </div>
+</body>
+</html>
