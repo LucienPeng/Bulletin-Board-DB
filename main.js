@@ -286,7 +286,7 @@ app.post("/valid/:id", async (req, res) => {
     new: true,
   })
     .then((meg) => {
-      console.log("valid has been set to FALSE");
+      console.log(`valid has been set to ${valid}`);
 
       res.status(200).send(meg);
     })
